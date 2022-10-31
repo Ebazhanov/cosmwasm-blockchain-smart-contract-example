@@ -1,4 +1,4 @@
-# Blockchain smart contracts with "CosmWasm" (academy.cosmwasm.com)
+# Create your own Blockchain smart contracts with "CosmWasm" (academy.cosmwasm.com)
 
 ❓ You will learn how to create **CosmWasm** Smart Contracts using Rust programming language! 
 
