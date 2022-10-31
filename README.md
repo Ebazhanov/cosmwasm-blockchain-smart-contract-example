@@ -12,8 +12,8 @@
 
 😎 The Rust knowledge, at least on the basic level is assumed.
 
------
 
+#### Free videos on [Vimeo](https://vimeo.com/user109497220)  
 - Chapter-1
 - Chapter-2 [Trivial contracts](https://vimeo.com/731363909)
 - Chapter-3 [Queries](https://vimeo.com/731369199)
