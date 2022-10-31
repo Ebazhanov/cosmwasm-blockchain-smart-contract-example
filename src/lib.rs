@@ -1,6 +1,9 @@
 use cosmwasm_std::{
-    DepsMut, Env, MessageInfo, Empty, StdResult, Response, entry_point
+    entry_point, to_binary, Binary, Deps, DepsMut, Empty, Env, MessageInfo, Response, StdResult,
 };
+
+mod contract;
+pub mod msg;
 
 #[entry_point]
 pub fn instantiate(
@@ -10,4 +13,14 @@ pub fn instantiate(
     _msg: Empty,
 ) -> StdResult<Response> {
     Ok(Response::new())
+}
+
+#[entry_point]
+pub fn query(_deps: Deps, _env: Env, msg: msg::QueryMsg) -> StdResult<Binary> {
+    use contract::query;
+    use msg::QueryMsg::*;
+
+    match msg {
+        Value {} => to_binary(&query::value()),
+    }
 }
