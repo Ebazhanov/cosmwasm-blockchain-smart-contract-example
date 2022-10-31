@@ -15,7 +15,7 @@
 -------
 
 ### How to use this repo:
-- Watch the video on your choice
+- Watch the video on your [choice](https://github.com/Ebazhanov/cosmwasm-blockchain-smart-contract#watch-videos-on-vimeo)
 - Checkout to the branch to double-check.
 
 ![branches](branches.png)
