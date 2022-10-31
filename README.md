@@ -17,10 +17,10 @@
 ### How to use this repo:
 - Watch the video on your choice
 - Checkout to the branch to double-check.
-- 
+
 ![branches](branches.png)
 
-### Course videos on [Vimeo](https://vimeo.com/user109497220)  
+### Watch videos on [Vimeo](https://vimeo.com/user109497220)  
 - Chapter-1 [Introduction](https://vimeo.com/user109497220)
 - Chapter-2 [Trivial contracts](https://vimeo.com/731363909)
 - Chapter-3 [Queries](https://vimeo.com/731369199)
