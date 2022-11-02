@@ -1,5 +1,5 @@
 use cosmwasm_std::{
-    entry_point, to_binary, Binary, Deps, DepsMut, Env, MessageInfo, Response, StdResult,
+    entry_point, to_binary, Binary, Deps, DepsMut, Empty, Env, MessageInfo, Response, StdResult,
 };
 
 mod contract;
@@ -8,7 +8,7 @@ mod state;
 
 #[allow(dead_code)]
 #[entry_point]
-fn instantiate(deps: DepsMut, _env: Env, _info: MessageInfo) -> StdResult<Response> {
+fn instantiate(deps: DepsMut, _env: Env, _info: MessageInfo, _msg: Empty) -> StdResult<Response> {
     contract::instantiate(deps)
 }
 
@@ -70,7 +70,7 @@ mod test {
             .query_wasm_smart(contract_addr, &QueryMsg::Value {})
             .unwrap();
 
-        assert_eq!(resp, ValueResp { value: 10 });
+        assert_eq!(resp, ValueResp { value: 0 });
     }
 
     #[test]
@@ -91,14 +91,6 @@ mod test {
                 None,
             )
             .unwrap();
-
-        app.execute_contract(
-            sender.clone(),
-            contract_addr.clone(),
-            &ExecMsg::Poke {},
-            &[],
-        )
-        .unwrap();
 
         app.execute_contract(sender, contract_addr.clone(), &ExecMsg::Poke {}, &[])
             .unwrap();
