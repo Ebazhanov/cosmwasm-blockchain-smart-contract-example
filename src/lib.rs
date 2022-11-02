@@ -6,6 +6,7 @@ mod contract;
 pub mod msg;
 mod state;
 
+#[allow(dead_code)]
 #[entry_point]
 fn instantiate(deps: DepsMut, _env: Env, _info: MessageInfo) -> StdResult<Response> {
     contract::instantiate(deps)
