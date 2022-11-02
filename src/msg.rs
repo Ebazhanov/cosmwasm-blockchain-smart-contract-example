@@ -1,4 +1,3 @@
-use cosmwasm_std::Coin;
 use serde::{Deserialize, Serialize};
 
 #[derive(Deserialize, Serialize, Debug, Clone, PartialEq, Eq)]
