@@ -25,17 +25,17 @@
 - Chapter-2 [Trivial contracts](https://vimeo.com/731363909)
 - Chapter-3 [Queries](https://vimeo.com/731369199)
 - Chapter-4 [Contracts testing](https://vimeo.com/731375149)
-- Chapter-5
-- Chapter-6
-- Chapter-7
-- Chapter-8
-- Chapter-9
-- Chapter-10
-- Chapter-11
-- Chapter-12
-- Chapter-13
-- Chapter-14
-- Chapter-15
+- Chapter-5 [State management](https://vimeo.com/user109497220)
+- Chapter-6 [Execution](https://vimeo.com/user109497220)
+- Chapter-7 [Receiving funds](https://vimeo.com/user109497220)
+- Chapter-8  [Sending funds](https://vimeo.com/user109497220)
+- Chapter-9  [Error handling](https://vimeo.com/user109497220)
+- Chapter-10 [Generating Schema](https://vimeo.com/user109497220)
+- Chapter-11 [Improving multi tests](https://vimeo.com/user109497220)
+- Chapter-12 [Contract as a dependency](https://vimeo.com/user109497220)
+- Chapter-13 [Migrations](https://vimeo.com/user109497220)
+- Chapter-14 [Version Management](https://vimeo.com/user109497220)
+- Chapter-15 [Calling external contracts](https://vimeo.com/user109497220)
 
 -------
 
@@ -45,6 +45,8 @@
 
 - original repo with resources
 [cw-academy-course](https://github.com/CosmWasm/cw-academy-course)
+
+- what to do next? [Smart contract crash course](https://vimeo.com/user109497220)
 
 
 ### Reference:
