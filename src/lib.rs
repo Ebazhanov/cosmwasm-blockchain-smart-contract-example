@@ -1,4 +1,5 @@
-use crate::msg::InstantiateMsg;
+use crate::msg::QueryMsg::Value;
+use crate::msg::{ExecMsg, InstantiateMsg};
 use cosmwasm_std::{
     entry_point, to_binary, Binary, Deps, DepsMut, Env, MessageInfo, Response, StdResult,
 };
@@ -30,14 +31,13 @@ pub fn execute(
     deps: DepsMut,
     _env: Env,
     info: MessageInfo,
-    msg: msg::ExecMsg,
-) -> StdResult<Response> {
+    msg: ExecMsg,
+) {
     use msg::ExecMsg::*;
 
-    let _ = match msg {
-        Donate {} => contract::exec::donate(deps, info),
-    };
-    Ok(Response::new())
+    if let Donate() = msg {
+        contract::exec::donate(deps, info),
+    }
 }
 
 #[cfg(test)]
