@@ -11,10 +11,10 @@ mod state;
 pub fn instantiate(
     deps: DepsMut,
     _env: Env,
-    _info: MessageInfo,
+    info: MessageInfo,
     msg: InstantiateMsg,
 ) -> StdResult<Response> {
-    contract::instantiate(deps, msg.counter, msg.minimal_donation)
+    contract::instantiate(deps, info, msg.counter, msg.minimal_donation)
 }
 
 #[entry_point]
@@ -42,7 +42,7 @@ pub fn execute(
 
 #[cfg(test)]
 mod test {
-    use cosmwasm_std::{Addr, Coin, coin, coins, Empty};
+    use cosmwasm_std::{coin, coins, Addr, Coin, Empty};
     use cw_multi_test::{App, Contract, ContractWrapper, Executor};
 
     use crate::msg::{ExecMsg, QueryMsg, ValueResp};
@@ -149,7 +149,7 @@ mod test {
             &ExecMsg::Donate {},
             &coins(10, ATOM),
         )
-            .unwrap();
+        .unwrap();
 
         let resp: ValueResp = app
             .wrap()

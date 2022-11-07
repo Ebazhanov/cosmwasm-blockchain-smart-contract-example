@@ -1,12 +1,18 @@
-use cosmwasm_std::{Coin, DepsMut, Response, StdResult};
+use cosmwasm_std::{Coin, DepsMut, MessageInfo, Response, StdResult};
 
-use crate::state::COUNTER;
+use crate::state::{COUNTER, OWNER};
 
 use crate::state::MINIMAL_DONATION;
 
-pub fn instantiate(deps: DepsMut, counter: u64, minimal_donation: Coin) -> StdResult<Response> {
+pub fn instantiate(
+    deps: DepsMut,
+    info: MessageInfo,
+    counter: u64,
+    minimal_donation: Coin,
+) -> StdResult<Response> {
     COUNTER.save(deps.storage, &counter)?;
     MINIMAL_DONATION.save(deps.storage, &minimal_donation)?;
+    OWNER.save(deps.storage, &info.sender)?;
     Ok(Response::new())
 }
 pub mod query {
