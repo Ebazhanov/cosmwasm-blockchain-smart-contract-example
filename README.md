@@ -18,6 +18,7 @@
 - Watch the video on your [choice](https://github.com/Ebazhanov/cosmwasm-blockchain-smart-contract#watch-videos-on-vimeo)
 - Checkout to the branch to double-check.
 - Or look at related [PR's](https://github.com/Ebazhanov/cosmwasm-blockchain-smart-contract/pulls)
+- `$ cargo build` and `$ cargo test`
 
 ![branches](branches.png)
 

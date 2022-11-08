@@ -159,4 +159,73 @@ mod test {
 
         assert_eq!(resp, ValueResp { value: 1 });
     }
+
+    #[test]
+    fn withdraw() {
+        let owner = Addr::unchecked("owner");
+        let sender1 = Addr::unchecked("sender1");
+        let sender2 = Addr::unchecked("sender2");
+
+        let mut app = App::new(|router, _api, storage| {
+            router
+                .bank
+                .init_balance(storage, &sender1, coins(10, "atom"))
+                .unwrap();
+            router
+                .bank
+                .init_balance(storage, &sender2, coins(5, "atom"))
+                .unwrap();
+        });
+
+        let contract_id = app.store_code(counting_contract());
+
+        let contract_addr = app
+            .instantiate_contract(
+                contract_id,
+                owner.clone(),
+                &InstantiateMsg {
+                    counter: 0,
+                    minimal_donation: coin(10, ATOM),
+                },
+                &[],
+                "Counting contract",
+                None,
+            )
+            .unwrap();
+
+        app.execute_contract(
+            sender1.clone(),
+            contract_addr.clone(),
+            &ExecMsg::Donate {},
+            &coins(10, ATOM),
+        )
+        .unwrap();
+
+        app.execute_contract(
+            sender2.clone(),
+            contract_addr.clone(),
+            &ExecMsg::Donate {},
+            &coins(5, ATOM),
+        )
+        .unwrap();
+
+        app.execute_contract(
+            owner.clone(),
+            contract_addr.clone(),
+            &ExecMsg::Withdraw {},
+            &[],
+        )
+        .unwrap();
+
+        assert_eq!(
+            app.wrap().query_all_balances(owner).unwrap(),
+            coins(15, ATOM)
+        );
+        assert_eq!(
+            app.wrap().query_all_balances(contract_addr).unwrap(),
+            vec![]
+        );
+        assert_eq!(app.wrap().query_all_balances(sender1).unwrap(), vec![]);
+        assert_eq!(app.wrap().query_all_balances(sender2).unwrap(), vec![]);
+    }
 }
