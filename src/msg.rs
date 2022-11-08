@@ -19,11 +19,6 @@ pub enum QueryMsg {
 #[serde(rename_all = "snake_case")]
 pub enum ExecMsg {
     Donate {},
-    Reset {
-        #[serde(default)]
-        counter: u64,
-    },
-    Withdraw {},
 }
 
 #[derive(Deserialize, Serialize, Debug, Clone, PartialEq, Eq)]

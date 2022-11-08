@@ -1,8 +1,6 @@
 use cosmwasm_std::{Coin, DepsMut, MessageInfo, Response, StdResult};
 
-use crate::state::{COUNTER, OWNER};
-
-use crate::state::MINIMAL_DONATION;
+use crate::state::{COUNTER, MINIMAL_DONATION, OWNER};
 
 pub fn instantiate(
     deps: DepsMut,
