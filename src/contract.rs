@@ -26,9 +26,9 @@ pub mod query {
 }
 
 pub mod exec {
-    use cosmwasm_std::{DepsMut, MessageInfo, Response, StdResult};
+    use cosmwasm_std::{BankMsg, DepsMut, Env, MessageInfo, Response, StdError, StdResult};
 
-    use crate::state::{COUNTER, MINIMAL_DONATION};
+    use crate::state::{COUNTER, MINIMAL_DONATION, OWNER};
 
     pub fn donate(deps: DepsMut, info: MessageInfo) -> StdResult<Response> {
         let mut counter = COUNTER.load(deps.storage)?;
@@ -45,6 +45,26 @@ pub mod exec {
             .add_attribute("action", "poke")
             .add_attribute("sender", info.sender.as_str())
             .add_attribute("counter", counter.to_string());
+
+        Ok(resp)
+    }
+
+    pub fn withdraw(deps: DepsMut, env: Env, info: MessageInfo) -> StdResult<Response> {
+        let owner = OWNER.load(deps.storage)?;
+        if info.sender != owner {
+            return Err(StdError::generic_err("Unauthorized"));
+        }
+
+        let balance = deps.querier.query_all_balances(&env.contract.address)?;
+        let bank_msg = BankMsg::Send {
+            to_address: info.sender.to_string(),
+            amount: balance,
+        };
+
+        let resp = Response::new()
+            .add_message(bank_msg)
+            .add_attribute("action", "withdraw")
+            .add_attribute("sender", info.sender.as_str());
 
         Ok(resp)
     }

@@ -28,7 +28,7 @@ pub fn query(deps: Deps, _env: Env, msg: msg::QueryMsg) -> StdResult<Binary> {
 #[entry_point]
 pub fn execute(
     deps: DepsMut,
-    _env: Env,
+    env: Env,
     info: MessageInfo,
     msg: msg::ExecMsg,
 ) -> StdResult<Response> {
@@ -36,6 +36,7 @@ pub fn execute(
 
     let _ = match msg {
         Donate {} => contract::exec::donate(deps, info),
+        Withdraw {} => contract::exec::withdraw(deps, env, info),
     };
     Ok(Response::new())
 }
