@@ -17,10 +17,12 @@
 ### How to use this repo:
 - Watch the video on your [choice](https://github.com/Ebazhanov/cosmwasm-blockchain-smart-contract#watch-videos-on-vimeo)
 - Checkout to the branch to double-check.
+- Or look at related [PR's](https://github.com/Ebazhanov/cosmwasm-blockchain-smart-contract/pulls)
+- `$ cargo build` and `$ cargo test`
 
 ![branches](branches.png)
 
-### Watch videos on [Vimeo](https://vimeo.com/user109497220)  
+### Watch videos on [Vimeo](https://vimeo.com/user109497220) (! make sure you are login to Vimeo)  
 - Chapter-1 [Introduction](https://vimeo.com/user109497220)
 - Chapter-2 [Trivial contracts](https://vimeo.com/731363909)
 - Chapter-3 [Queries](https://vimeo.com/731369199)
