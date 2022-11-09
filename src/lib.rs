@@ -34,10 +34,11 @@ pub fn execute(
 ) -> StdResult<Response> {
     use msg::ExecMsg::*;
 
-    let _ = match msg {
+    match msg {
         Donate {} => contract::exec::donate(deps, info),
         Withdraw {} => contract::exec::withdraw(deps, env, info),
-    };
+    }
+    .expect("TODO: panic message");
     Ok(Response::new())
 }
 
@@ -223,7 +224,7 @@ mod test {
         );*/
 
         assert_eq!(
-            app.wrap().query_all_balances(contract_addr).unwrap(),
+            app.wrap().query_all_balances(owner).unwrap(),
             coins(15, ATOM)
         );
         /*        assert_eq!(

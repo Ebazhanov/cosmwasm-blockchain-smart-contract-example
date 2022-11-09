@@ -14,10 +14,9 @@ pub fn instantiate(
     Ok(Response::new())
 }
 pub mod query {
-    use cosmwasm_std::{Deps, StdResult};
-
     use crate::msg::ValueResp;
     use crate::state::COUNTER;
+    use cosmwasm_std::{Deps, StdResult};
 
     pub fn value(deps: Deps) -> StdResult<ValueResp> {
         let value = COUNTER.load(deps.storage)?;
@@ -26,9 +25,8 @@ pub mod query {
 }
 
 pub mod exec {
-    use cosmwasm_std::{BankMsg, DepsMut, Env, MessageInfo, Response, StdError, StdResult};
-
     use crate::state::{COUNTER, MINIMAL_DONATION, OWNER};
+    use cosmwasm_std::{BankMsg, DepsMut, Env, MessageInfo, Response, StdError, StdResult};
 
     pub fn donate(deps: DepsMut, info: MessageInfo) -> StdResult<Response> {
         let mut counter = COUNTER.load(deps.storage)?;
@@ -57,7 +55,7 @@ pub mod exec {
 
         let balance = deps.querier.query_all_balances(&env.contract.address)?;
         let bank_msg = BankMsg::Send {
-            to_address: info.sender.to_string(),
+            to_address: owner.to_string(),
             amount: balance,
         };
 
