@@ -38,8 +38,6 @@ pub fn execute(
         Donate {} => contract::exec::donate(deps, info),
         Withdraw {} => contract::exec::withdraw(deps, env, info),
     }
-    .expect("TODO: panic message");
-    Ok(Response::new())
 }
 
 #[cfg(test)]
@@ -164,17 +162,12 @@ mod test {
     #[test]
     fn withdraw() {
         let owner = Addr::unchecked("owner");
-        let sender1 = Addr::unchecked("sender1");
-        let sender2 = Addr::unchecked("sender2");
+        let sender = Addr::unchecked("sender");
 
         let mut app = App::new(|router, _api, storage| {
             router
                 .bank
-                .init_balance(storage, &sender1, coins(10, "atom"))
-                .unwrap();
-            router
-                .bank
-                .init_balance(storage, &sender2, coins(5, "atom"))
+                .init_balance(storage, &sender, coins(10, "atom"))
                 .unwrap();
         });
 
@@ -186,7 +179,7 @@ mod test {
                 owner.clone(),
                 &InstantiateMsg {
                     counter: 0,
-                    minimal_donation: coin(10, ATOM),
+                    minimal_donation: coin(10, "atom"),
                 },
                 &[],
                 "Counting contract",
@@ -195,18 +188,10 @@ mod test {
             .unwrap();
 
         app.execute_contract(
-            sender1.clone(),
+            sender.clone(),
             contract_addr.clone(),
             &ExecMsg::Donate {},
-            &coins(10, ATOM),
-        )
-        .unwrap();
-
-        app.execute_contract(
-            sender2.clone(),
-            contract_addr.clone(),
-            &ExecMsg::Donate {},
-            &coins(5, ATOM),
+            &coins(10, "atom"),
         )
         .unwrap();
 
@@ -218,20 +203,14 @@ mod test {
         )
         .unwrap();
 
-        /*        assert_eq!(
-            app.wrap().query_all_balances(owner).unwrap(),
-            coins(15, ATOM)
-        );*/
-
         assert_eq!(
             app.wrap().query_all_balances(owner).unwrap(),
-            coins(15, ATOM)
+            coins(10, "atom")
         );
-        /*        assert_eq!(
+        assert_eq!(app.wrap().query_all_balances(sender).unwrap(), vec![]);
+        assert_eq!(
             app.wrap().query_all_balances(contract_addr).unwrap(),
             vec![]
-        );*/
-        assert_eq!(app.wrap().query_all_balances(sender1).unwrap(), vec![]);
-        assert_eq!(app.wrap().query_all_balances(sender2).unwrap(), vec![]);
+        );
     }
 }

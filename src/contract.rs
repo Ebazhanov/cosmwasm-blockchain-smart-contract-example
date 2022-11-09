@@ -13,6 +13,7 @@ pub fn instantiate(
     OWNER.save(deps.storage, &info.sender)?;
     Ok(Response::new())
 }
+
 pub mod query {
     use crate::msg::ValueResp;
     use crate::state::COUNTER;
@@ -55,15 +56,13 @@ pub mod exec {
 
         let balance = deps.querier.query_all_balances(&env.contract.address)?;
         let bank_msg = BankMsg::Send {
-            to_address: owner.to_string(),
+            to_address: info.sender.to_string(),
             amount: balance,
         };
 
-        let resp = Response::new()
+        Ok(Response::new()
             .add_message(bank_msg)
             .add_attribute("action", "withdraw")
-            .add_attribute("sender", info.sender.as_str());
-
-        Ok(resp)
+            .add_attribute("sender", info.sender.as_str()))
     }
 }
