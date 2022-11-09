@@ -1,9 +1,11 @@
+use crate::error::ContractError;
 use crate::msg::InstantiateMsg;
 use cosmwasm_std::{
     entry_point, to_binary, Binary, Deps, DepsMut, Env, MessageInfo, Response, StdResult,
 };
 
 mod contract;
+pub mod error;
 pub mod msg;
 mod state;
 
@@ -31,11 +33,11 @@ pub fn execute(
     env: Env,
     info: MessageInfo,
     msg: msg::ExecMsg,
-) -> StdResult<Response> {
+) -> Result<Response, ContractError> {
     use msg::ExecMsg::*;
 
     match msg {
-        Donate {} => contract::exec::donate(deps, info),
+        Donate {} => contract::exec::donate(deps, info).map_err(ContractError::from),
         Withdraw {} => contract::exec::withdraw(deps, env, info),
     }
 }
@@ -211,6 +213,45 @@ mod test {
         assert_eq!(
             app.wrap().query_all_balances(contract_addr).unwrap(),
             vec![]
+        );
+    }
+
+    #[test]
+    fn unauthorized_withdraw() {
+        let owner = Addr::unchecked("owner");
+        let member = Addr::unchecked("member");
+
+        let mut app = App::default();
+
+        let contract_id = app.store_code(counting_contract());
+
+        let contract_addr = app
+            .instantiate_contract(
+                contract_id,
+                owner.clone(),
+                &InstantiateMsg {
+                    counter: 0,
+                    minimal_donation: coin(10, "atom"),
+                },
+                &[],
+                "Counting contract",
+                None,
+            )
+            .unwrap();
+
+        let err = app
+            .execute_contract(
+                member.clone(),
+                contract_addr.clone(),
+                &ExecMsg::Withdraw {},
+                &[],
+            )
+            .unwrap_err();
+        assert_eq!(
+            ContractError::Unauthorized {
+                owner: owner.into()
+            },
+            err.downcast().unwrap()
         );
     }
 }
