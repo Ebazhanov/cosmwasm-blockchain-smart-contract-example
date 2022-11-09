@@ -4,7 +4,6 @@ use serde::{Deserialize, Serialize};
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq)]
 #[serde(rename_all = "snake_case")]
 pub struct InstantiateMsg {
-    #[serde(default)]
     pub counter: u64,
     pub minimal_donation: Coin,
 }

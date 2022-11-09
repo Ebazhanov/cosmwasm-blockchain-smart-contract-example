@@ -218,13 +218,13 @@ mod test {
         .unwrap();
 
         assert_eq!(
-            app.wrap().query_all_balances(owner).unwrap(),
+            app.wrap().query_all_balances(contract_addr).unwrap(),
             coins(15, ATOM)
         );
-        assert_eq!(
+        /*        assert_eq!(
             app.wrap().query_all_balances(contract_addr).unwrap(),
             vec![]
-        );
+        );*/
         assert_eq!(app.wrap().query_all_balances(sender1).unwrap(), vec![]);
         assert_eq!(app.wrap().query_all_balances(sender2).unwrap(), vec![]);
     }
