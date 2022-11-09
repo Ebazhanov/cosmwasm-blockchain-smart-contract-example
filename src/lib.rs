@@ -217,6 +217,11 @@ mod test {
         )
         .unwrap();
 
+        /*        assert_eq!(
+            app.wrap().query_all_balances(owner).unwrap(),
+            coins(15, ATOM)
+        );*/
+
         assert_eq!(
             app.wrap().query_all_balances(contract_addr).unwrap(),
             coins(15, ATOM)
