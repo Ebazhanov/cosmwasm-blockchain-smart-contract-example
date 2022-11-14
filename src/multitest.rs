@@ -2,7 +2,7 @@ use crate::error::ContractError;
 use crate::msg::{ExecMsg, InstantiateMsg, QueryMsg, ValueResp};
 use cosmwasm_std::{Addr, Coin, StdResult};
 use cw_multi_test::{App, Executor};
-
+#[cfg(test)]
 mod tests;
 
 pub struct CountingContract(Addr);
