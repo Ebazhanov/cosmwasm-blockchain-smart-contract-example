@@ -59,60 +59,6 @@ mod test {
     }
 
     const ATOM: &str = "atom";
-    #[test]
-    fn withdraw() {
-        let owner = Addr::unchecked("owner");
-        let sender = Addr::unchecked("sender");
-
-        let mut app = App::new(|router, _api, storage| {
-            router
-                .bank
-                .init_balance(storage, &sender, coins(10, "atom"))
-                .unwrap();
-        });
-
-        let contract_id = app.store_code(counting_contract());
-
-        let contract_addr = app
-            .instantiate_contract(
-                contract_id,
-                owner.clone(),
-                &InstantiateMsg {
-                    counter: 0,
-                    minimal_donation: coin(10, "atom"),
-                },
-                &[],
-                "Counting contract",
-                None,
-            )
-            .unwrap();
-
-        app.execute_contract(
-            sender.clone(),
-            contract_addr.clone(),
-            &ExecMsg::Donate {},
-            &coins(10, "atom"),
-        )
-        .unwrap();
-
-        app.execute_contract(
-            owner.clone(),
-            contract_addr.clone(),
-            &ExecMsg::Withdraw {},
-            &[],
-        )
-        .unwrap();
-
-        assert_eq!(
-            app.wrap().query_all_balances(owner).unwrap(),
-            coins(10, "atom")
-        );
-        assert_eq!(app.wrap().query_all_balances(sender).unwrap(), vec![]);
-        assert_eq!(
-            app.wrap().query_all_balances(contract_addr).unwrap(),
-            vec![]
-        );
-    }
 
     #[test]
     fn unauthorized_withdraw() {

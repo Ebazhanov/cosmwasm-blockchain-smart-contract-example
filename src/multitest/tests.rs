@@ -81,3 +81,42 @@ fn donate_with_funds() {
         coins(10, ATOM)
     )
 }
+
+#[test]
+fn withdraw() {
+    let owner = Addr::unchecked("owner");
+    let sender = Addr::unchecked("sender");
+
+    let mut app = App::new(|router, _api, storage| {
+        router
+            .bank
+            .init_balance(storage, &sender, coins(10, "atom"))
+            .unwrap();
+    });
+
+    let contract_id = app.store_code(counting_contract());
+
+    let contract = CountingContract::instantiate(
+        &mut app,
+        contract_id,
+        &owner,
+        "Counting_contract",
+        Coin::new(10, ATOM),
+    )
+    .unwrap();
+    contract
+        .donate(&mut app, &sender, &coins(10, ATOM))
+        .unwrap();
+
+    contract.withdraw(&mut app, &owner).unwrap();
+
+    assert_eq!(
+        app.wrap().query_all_balances(owner).unwrap(),
+        coins(10, "atom")
+    );
+    assert_eq!(app.wrap().query_all_balances(sender).unwrap(), vec![]);
+    assert_eq!(
+        app.wrap().query_all_balances(contract.addr()).unwrap(),
+        vec![]
+    );
+}
