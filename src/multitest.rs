@@ -3,6 +3,8 @@ use crate::msg::{ExecMsg, InstantiateMsg, QueryMsg, ValueResp};
 use cosmwasm_std::{Addr, Coin, StdResult};
 use cw_multi_test::{App, Executor};
 
+mod tests;
+
 pub struct CountingContract(Addr);
 
 impl CountingContract {
