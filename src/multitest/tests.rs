@@ -1,8 +1,7 @@
 use cosmwasm_std::{coins, Addr, Coin, Empty};
-use cw_multi_test::{App, Contract, ContractWrapper, Executor};
+use cw_multi_test::{App, Contract, ContractWrapper};
 
 use crate::error::ContractError;
-use crate::msg::{ExecMsg, InstantiateMsg, QueryMsg, ValueResp};
 use crate::multitest::CountingContract;
 use crate::{execute, instantiate, query};
 

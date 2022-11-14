@@ -1,8 +1,9 @@
-use crate::error::ContractError;
-use crate::msg::InstantiateMsg;
 use cosmwasm_std::{
     entry_point, to_binary, Binary, Deps, DepsMut, Env, MessageInfo, Response, StdResult,
 };
+
+use crate::error::ContractError;
+use crate::msg::InstantiateMsg;
 
 mod contract;
 pub mod error;
