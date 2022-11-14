@@ -53,4 +53,13 @@ impl CountingContract {
         app.wrap()
             .query_wasm_smart(self.0.clone(), &QueryMsg::Value {})
     }
+    pub fn addr(&self) -> &Addr {
+        &self.0
+    }
+}
+
+impl From<CountingContract> for Addr {
+    fn from(contract: CountingContract) -> Self {
+        contract.0
+    }
 }

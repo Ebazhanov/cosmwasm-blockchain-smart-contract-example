@@ -74,6 +74,7 @@ fn donate_with_funds() {
         .unwrap();
 
     let resp = contract.query_value(&app).unwrap();
+    assert_eq!(resp.value, 1);
     assert_eq!(app.wrap().query_all_balances(sender).unwrap(), vec![]);
     assert_eq!(
         app.wrap().query_all_balances(contract.addr()).unwrap(),
