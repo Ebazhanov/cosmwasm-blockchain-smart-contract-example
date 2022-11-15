@@ -5,7 +5,7 @@ env:
 
 jobs:
   build_and_test:
-    name: CosmWasm smart contract
+    name: Build & Test CosmWasm smart contract
     runs-on: ubuntu-latest
 
     steps:
