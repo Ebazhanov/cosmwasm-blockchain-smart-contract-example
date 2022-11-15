@@ -24,13 +24,17 @@ pub fn migrate(deps: DepsMut) -> StdResult<Response> {
     const COUNTER: Item<u64> = Item::new("counter");
     const MINIMAL_DONATION: Item<Coin> = Item::new("minimal_donation");
 
+    let counter = COUNTER.load(deps.storage)?;
+    let minimal_donation = MINIMAL_DONATION.load(deps.storage)?;
+
     STATE.save(
         deps.storage,
         &State {
-            counter: COUNTER.load(deps.storage)?,
-            minimal_donation: MINIMAL_DONATION.load(deps.storage)?,
+            counter,
+            minimal_donation,
         },
     )?;
+
     Ok(Response::new())
 }
 
