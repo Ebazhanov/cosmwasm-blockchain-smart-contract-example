@@ -10,6 +10,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
+      - name: Check binary
+        run: cargo wasm
       - name: Build
         run: cargo build --verbose
       - name: Run tests
