@@ -1,4 +1,5 @@
 use cosmwasm_std::{Coin, DepsMut, MessageInfo, Response, StdResult};
+use cw_storage_plus::Item;
 
 use crate::state::{State, OWNER, STATE};
 
@@ -16,6 +17,20 @@ pub fn instantiate(
         },
     )?;
     OWNER.save(deps.storage, &info.sender)?;
+    Ok(Response::new())
+}
+
+pub fn migrate(deps: DepsMut) -> StdResult<Response> {
+    const COUNTER: Item<u64> = Item::new("counter");
+    const MINIMAL_DONATION: Item<Coin> = Item::new("minimal_donation");
+
+    STATE.save(
+        deps.storage,
+        &State {
+            counter: COUNTER.load(deps.storage)?,
+            minimal_donation: MINIMAL_DONATION.load(deps.storage)?,
+        },
+    )?;
     Ok(Response::new())
 }
 
