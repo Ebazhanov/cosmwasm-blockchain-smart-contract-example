@@ -26,7 +26,7 @@ impl CountingContract {
             },
             &[],
             label,
-            admin.map(Addr::to_string()),
+            admin.map(Addr::to_string),
         )
         .map_err(|err| err.downcast().unwrap())
         .map(CountingContract)
