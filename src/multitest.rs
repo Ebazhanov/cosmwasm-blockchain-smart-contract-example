@@ -13,6 +13,7 @@ impl CountingContract {
         app: &mut App,
         code_id: u64,
         sender: &Addr,
+        admin: Option<&Addr>,
         label: &str,
         minimal_donation: Coin,
     ) -> StdResult<CountingContract> {
@@ -25,7 +26,7 @@ impl CountingContract {
             },
             &[],
             label,
-            None,
+            admin.map(Addr::to_string()),
         )
         .map_err(|err| err.downcast().unwrap())
         .map(CountingContract)
