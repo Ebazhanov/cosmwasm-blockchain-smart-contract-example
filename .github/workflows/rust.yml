@@ -12,7 +12,5 @@ jobs:
       - uses: actions/checkout@v3
       - name: Cargo build
         run: cargo build --verbose
-      - name: Check binary
-        run: cargo build --release --target wasm32-unknown-unknown --lib
       - name: Run tests
         run: cargo test --verbose
