@@ -1,10 +1,12 @@
-use cosmwasm_std::{coins, Addr, Coin, Empty};
+use cosmwasm_std::{coins, Addr, Coin, Empty, coin};
 use cw_multi_test::{App, Contract, ContractWrapper};
 
 use crate::error::ContractError;
 use crate::multitest::CountingContract;
 use crate::{execute, instantiate, query};
-/*use counting_contract_0_1_0::multitest::CountingContract as CountingContract_0_1;*/
+use crate::msg::ValueResp;
+use crate::state::{STATE, State};
+use counting_contract_0_1_0::multitest::CountingContract as CountingContract_1_0;
 
 fn counting_contract() -> Box<dyn Contract<Empty>> {
     let contract = ContractWrapper::new(execute, instantiate, query);
@@ -154,7 +156,7 @@ fn unauthorized_withdraw() {
     );
 }
 
-#[cfg(feature = "expensive_tests")]
+#[test]
 fn migration() {
     let admin = Addr::unchecked("admin");
     let owner = Addr::unchecked("owner");
@@ -167,10 +169,10 @@ fn migration() {
             .unwrap();
     });
 
-    let old_code_id = CountingContract_0_1::store_code(&mut app);
+    let old_code_id = CountingContract_1_0::store_code(&mut app);
     let new_code_id = CountingContract::store_code(&mut app);
 
-    let contract = CountingContract_0_1::instantiate(
+    let contract = CountingContract_1_0::instantiate(
         &mut app,
         old_code_id,
         &owner,
