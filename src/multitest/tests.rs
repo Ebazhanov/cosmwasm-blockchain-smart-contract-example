@@ -6,7 +6,7 @@ use crate::multitest::CountingContract;
 use crate::{execute, instantiate, query};
 use crate::msg::ValueResp;
 use crate::state::{STATE, State};
-use counting_contract_0_1_0::multitest::CountingContract as CountingContract_1_0;
+use counting_contract_0_1_0::multitest::CountingContract as CountingContract0_1_0;
 
 fn counting_contract() -> Box<dyn Contract<Empty>> {
     let contract = ContractWrapper::new(execute, instantiate, query);
@@ -169,16 +169,15 @@ fn migration() {
             .unwrap();
     });
 
-    let old_code_id = CountingContract_1_0::store_code(&mut app);
+    let old_code_id = CountingContract0_1_0::store_code(&mut app);
     let new_code_id = CountingContract::store_code(&mut app);
 
-    let contract = CountingContract_1_0::instantiate(
+    let contract = CountingContract::instantiate(
         &mut app,
         old_code_id,
         &owner,
+        Some(&admin),
         "Counting contract",
-        &admin,
-        None,
         coin(10, ATOM),
     )
     .unwrap();
