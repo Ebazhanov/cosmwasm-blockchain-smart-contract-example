@@ -1,5 +1,5 @@
 use cosmwasm_std::{
-    entry_point, to_binary, Binary, Deps, DepsMut, Env, MessageInfo, Response, StdResult,
+    entry_point, to_binary, Binary, Deps, DepsMut, Empty, Env, MessageInfo, Response, StdResult,
 };
 
 use crate::error::ContractError;
@@ -43,4 +43,8 @@ pub fn execute(
         Donate {} => contract::exec::donate(deps, info).map_err(ContractError::from),
         Withdraw {} => contract::exec::withdraw(deps, env, info),
     }
+}
+#[cfg_attr(not(feature = "library"), entry_point)]
+pub fn migrate(deps: DepsMut, _env: Env, _msg: Empty) -> StdResult<Response> {
+    contract::migrate(deps)
 }
