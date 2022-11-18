@@ -206,7 +206,6 @@ fn migration() {
 fn migration_no_update() {
     let admin = Addr::unchecked("admin");
     let owner = Addr::unchecked("owner");
-    let sender = Addr::unchecked("sender");
 
     let mut app = App::default();
 
@@ -214,7 +213,7 @@ fn migration_no_update() {
 
     let contract = CountingContract::instantiate(
         &mut app,
-        old_code_id,
+        code_id,
         &owner,
         Some(&admin),
         "Counting contract",
@@ -222,19 +221,5 @@ fn migration_no_update() {
     )
         .unwrap();
 
-
-    let contract =
-        CountingContract::migrate(&mut app, contract.into(), code_id, &admin).unwrap();
-
-    let resp = contract.query_value(&app).unwrap();
-    assert_eq!(resp, ValueResp { value: 1 });
-
-    let state = STATE.query(&app.wrap(), contract.addr().clone()).unwrap();
-    assert_eq!(
-        state,
-        State {
-            counter: 1,
-            minimal_donation: coin(10, ATOM)
-        }
-    );
+    CountingContract::migrate(&mut app, contract.into(), code_id, &admin).unwrap();
 }
