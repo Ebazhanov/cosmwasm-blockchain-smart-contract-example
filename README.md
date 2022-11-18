@@ -1,26 +1,24 @@
 ![job](https://github.com/ebazhanov/cosmwasm-blockchain-smart-contract-example/actions/workflows/rust.yml/badge.svg?event=push)
 
-# Create your own Blockchain smart contracts with "CosmWasm" (academy.cosmwasm.com)
+## CosmWasm
 
-❓ You will learn how to create **CosmWasm** Smart Contracts using Rust programming language! 
+### Create your own Blockchain smart contracts with "CosmWasm" (academy.cosmwasm.com)
 
-🤘 Using basic tools - **CosmWasm** standard library, and some common utilities. 
-
-💅 You will start defining your contract entry points, then you will learn about the **state management**, and how to **test** your contracts. 
-
-💥 All the time you would learn how to test pieces you already have. 
-
-👉 The course is focusing not only on giving you raw knowledge, but show you the best practices to make your live easier in the future. 
-
-😎 The Rust knowledge, at least on the basic level is assumed.
+- ❓ You will learn how to create **CosmWasm** Smart Contracts using Rust programming language!
+- 🤘 Using basic tools - **CosmWasm** standard library, and some common utilities.
+- 💅 You will start defining your contract entry points, then you will learn about the **state management**, and how to **test** your contracts.
+- 💥 All the time you would learn how to test pieces you already have.
+- 👉 The course is focusing not only on giving you raw knowledge, but show you the best practices to make your live easier in the future.
+- 😎 The Rust knowledge, at least on the basic level is assumed.
 
 -------
+
 
 ### How to use this repo:
 - Watch the video on your [choice](https://github.com/Ebazhanov/cosmwasm-blockchain-smart-contract#watch-videos-on-vimeo)
 - Checkout to the branch to double-check.
 - Or look at related [PR's](https://github.com/Ebazhanov/cosmwasm-blockchain-smart-contract/pulls)
-- `$ cargo build` and `$ cargo test`
+- `$ cargo build` and `$ cargo test` or `$ cargo clean`
 
 ![branches](branches.png)
 
@@ -43,13 +41,11 @@
 
 -------
 
+
+
 ### FAQ
-- if you block with someone let me know in the Chat below:
-[/discussions](https://github.com/Ebazhanov/academy.cosmwasm.com/discussions)
-
-- original repo with resources
-[cw-academy-course](https://github.com/CosmWasm/cw-academy-course)
-
+- if you block with someone let me know in the Chat below:[/discussions](https://github.com/Ebazhanov/academy.cosmwasm.com/discussions)
+- original repo with resources [cw-academy-course](https://github.com/CosmWasm/cw-academy-course)
 - what to do next? [Smart contract crash course](https://vimeo.com/user109497220)
 
 
