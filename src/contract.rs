@@ -1,7 +1,12 @@
 use cosmwasm_std::{Coin, DepsMut, MessageInfo, Response, StdResult};
+use cw2::{get_contract_version, set_contract_version};
 use cw_storage_plus::Item;
 
-use crate::state::{State, OWNER, STATE};
+use crate::error::ContractError;
+use crate::state::{OWNER, State, STATE};
+
+const CONTRACT_NAME: &str = env!("CARGO_PKG_NAME");
+const CONTRACT_VERSION: &str = env!("CARGO_PKG_VERSION");
 
 pub fn instantiate(
     deps: DepsMut,
@@ -9,6 +14,7 @@ pub fn instantiate(
     counter: u64,
     minimal_donation: Coin,
 ) -> StdResult<Response> {
+    set_contract_version(deps.storage, CONTRACT_NAME, CONTRACT_VERSION)?;
     STATE.save(
         deps.storage,
         &State {
@@ -20,7 +26,31 @@ pub fn instantiate(
     Ok(Response::new())
 }
 
-pub fn migrate(deps: DepsMut) -> StdResult<Response> {
+pub fn migrate(mut deps: DepsMut) -> Result<Response, ContractError> {
+    let contract_version = get_contract_version(deps.storage)?;
+
+    if contract_version.contract != CONTRACT_NAME {
+        return Err(ContractError::InvalidContract {
+            contract: contract_version.contract,
+        });
+    }
+
+    let resp = match contract_version.version.as_str() {
+        "0.1.0" => migrate_0_1_0(deps.branch()).map_err(ContractError::from)?,
+        CONTRACT_VERSION => return Ok(Response::default()),
+        version => {
+            return Err(ContractError::InvalidContractVersion {
+                version: version.into(),
+            })
+        }
+    };
+
+    set_contract_version(deps.storage, CONTRACT_NAME, CONTRACT_VERSION)?;
+
+    Ok(resp)
+}
+
+pub fn migrate_0_1_0(deps: DepsMut) -> StdResult<Response> {
     const COUNTER: Item<u64> = Item::new("counter");
     const MINIMAL_DONATION: Item<Coin> = Item::new("minimal_donation");
 
@@ -39,9 +69,10 @@ pub fn migrate(deps: DepsMut) -> StdResult<Response> {
 }
 
 pub mod query {
+    use cosmwasm_std::{Deps, StdResult};
+
     use crate::msg::ValueResp;
     use crate::state::STATE;
-    use cosmwasm_std::{Deps, StdResult};
 
     pub fn value(deps: Deps) -> StdResult<ValueResp> {
         let value = STATE.load(deps.storage)?.counter;
@@ -50,9 +81,10 @@ pub mod query {
 }
 
 pub mod exec {
+    use cosmwasm_std::{BankMsg, DepsMut, Env, MessageInfo, Response, StdResult};
+
     use crate::error::ContractError;
     use crate::state::{OWNER, STATE};
-    use cosmwasm_std::{BankMsg, DepsMut, Env, MessageInfo, Response, StdResult};
 
     pub fn donate(deps: DepsMut, info: MessageInfo) -> StdResult<Response> {
         let mut state = STATE.load(deps.storage)?;
