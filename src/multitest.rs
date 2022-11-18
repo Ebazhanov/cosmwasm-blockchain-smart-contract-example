@@ -1,5 +1,5 @@
 use crate::error::ContractError;
-use crate::msg::{ExecMsg, InstantiateMsg, QueryMsg, ValueResp};
+use crate::msg::{ExecMsg, InstantiateMsg, Parent, QueryMsg, ValueResp};
 use cosmwasm_std::{Addr, Coin, Empty, StdResult};
 use cw_multi_test::{App, ContractWrapper, Executor};
 use crate::{execute, instantiate, migrate, query};
@@ -31,6 +31,7 @@ impl CountingContract {
             &InstantiateMsg {
                 counter: 0,
                 minimal_donation,
+                parent: None
             },
             &[],
             label,

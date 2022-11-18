@@ -1,9 +1,10 @@
-use cosmwasm_std::{Coin, DepsMut, MessageInfo, Response, StdResult};
+use cosmwasm_std::{Addr, Coin, DepsMut, MessageInfo, Response, StdResult};
 use cw2::{get_contract_version, set_contract_version};
 use cw_storage_plus::Item;
 
 use crate::error::ContractError;
-use crate::state::{OWNER, State, STATE};
+use crate::msg::Parent;
+use crate::state::{OWNER, PARENT_DONATION, ParentDonation, State, STATE};
 
 const CONTRACT_NAME: &str = env!("CARGO_PKG_NAME");
 const CONTRACT_VERSION: &str = env!("CARGO_PKG_VERSION");
@@ -13,16 +14,31 @@ pub fn instantiate(
     info: MessageInfo,
     counter: u64,
     minimal_donation: Coin,
+    parent: Option<Parent>,
 ) -> StdResult<Response> {
     set_contract_version(deps.storage, CONTRACT_NAME, CONTRACT_VERSION)?;
+
     STATE.save(
         deps.storage,
         &State {
             counter,
             minimal_donation,
+            owner: info.sender,
+            donating_parent: parent.as_ref().map(|p| p.donating_period),
         },
     )?;
-    OWNER.save(deps.storage, &info.sender)?;
+
+    if let Some(parent) = parent {
+        PARENT_DONATION.save(
+            deps.storage,
+            &ParentDonation {
+                address: deps.api.addr_validate(&parent.addr)?,
+                donating_parent_period: parent.donating_period,
+                part: parent.part,
+            },
+        )?;
+    }
+
     Ok(Response::new())
 }
 
@@ -37,6 +53,7 @@ pub fn migrate(mut deps: DepsMut) -> Result<Response, ContractError> {
 
     let resp = match contract_version.version.as_str() {
         "0.1.0" => migrate_0_1_0(deps.branch()).map_err(ContractError::from)?,
+        "0.2.0" => migrate_0_2_0(deps.branch()).map_err(ContractError::from)?,
         CONTRACT_VERSION => return Ok(Response::default()),
         version => {
             return Err(ContractError::InvalidContractVersion {
@@ -53,15 +70,48 @@ pub fn migrate(mut deps: DepsMut) -> Result<Response, ContractError> {
 pub fn migrate_0_1_0(deps: DepsMut) -> StdResult<Response> {
     const COUNTER: Item<u64> = Item::new("counter");
     const MINIMAL_DONATION: Item<Coin> = Item::new("minimal_donation");
+    const OWNER: Item<Addr> = Item::new("owner");
 
     let counter = COUNTER.load(deps.storage)?;
     let minimal_donation = MINIMAL_DONATION.load(deps.storage)?;
+    let owner = OWNER.load(deps.storage)?;
 
     STATE.save(
         deps.storage,
         &State {
             counter,
             minimal_donation,
+            owner,
+            donating_parent: None,
+        },
+    )?;
+
+    Ok(Response::new())
+}
+
+pub fn migrate_0_2_0(deps: DepsMut) -> StdResult<Response> {
+    #[derive(Serialize, Deserialize)]
+    struct OldState {
+        counter: u64,
+        minimal_donation: Coin,
+        owner: Addr,
+    }
+
+    const OLD_STATE: Item<OldState> = Item::new("state");
+
+    let OldState {
+        counter,
+        minimal_donation,
+        owner,
+    } = OLD_STATE.load(deps.storage)?;
+
+    STATE.save(
+        deps.storage,
+        &State {
+            counter,
+            minimal_donation,
+            owner,
+            donating_parent: None,
         },
     )?;
 

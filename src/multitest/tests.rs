@@ -1,12 +1,12 @@
-use cosmwasm_std::{coins, Addr, Coin, Empty, coin};
+use cosmwasm_std::{coin, coins, Addr, Coin, Empty};
+use counting_contract_0_1_0::multitest::CountingContract as CountingContract0_1_0;
 use cw_multi_test::{App, Contract, ContractWrapper};
 
 use crate::error::ContractError;
-use crate::multitest::CountingContract;
-use crate::{execute, instantiate, query};
 use crate::msg::ValueResp;
-use crate::state::{STATE, State};
-use counting_contract_0_1_0::multitest::CountingContract as CountingContract0_1_0;
+use crate::multitest::CountingContract;
+use crate::state::{State, STATE};
+use crate::{execute, instantiate, query};
 
 fn counting_contract() -> Box<dyn Contract<Empty>> {
     let contract = ContractWrapper::new(execute, instantiate, query);
@@ -197,7 +197,9 @@ fn migration() {
         state,
         State {
             counter: 1,
-            minimal_donation: coin(10, ATOM)
+            minimal_donation: coin(10, ATOM),
+            owner,
+            donating_parent: None,
         }
     );
 }
@@ -219,7 +221,7 @@ fn migration_no_update() {
         "Counting contract",
         coin(10, ATOM),
     )
-        .unwrap();
+    .unwrap();
 
     CountingContract::migrate(&mut app, contract.into(), code_id, &admin).unwrap();
 }
