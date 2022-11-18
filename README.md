@@ -1,6 +1,6 @@
 [![job](https://github.com/ebazhanov/cosmwasm-blockchain-smart-contract-example/actions/workflows/rust.yml/badge.svg?event=push)](https://github.com/Ebazhanov/cosmwasm-blockchain-smart-contract-example/actions)
 
-#CosmWasm
+# CosmWasm
 
 ### Learn how to build your first Smart Contract:
 
