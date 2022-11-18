@@ -1,4 +1,4 @@
-![job](https://github.com/ebazhanov/cosmwasm-blockchain-smart-contract-example/actions/workflows/rust.yml/badge.svg?event=push)
+[![job](https://github.com/ebazhanov/cosmwasm-blockchain-smart-contract-example/actions/workflows/rust.yml/badge.svg?event=push)](https://github.com/Ebazhanov/cosmwasm-blockchain-smart-contract-example/actions)
 
 ## CosmWasm
 
