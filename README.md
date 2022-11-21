@@ -1,15 +1,15 @@
-![job](https://github.com/ebazhanov/cosmwasm-blockchain-smart-contract-example/actions/workflows/rust.yml/badge.svg?event=push)
+[![job](https://github.com/ebazhanov/cosmwasm-blockchain-smart-contract-example/actions/workflows/rust.yml/badge.svg?event=push)](https://github.com/Ebazhanov/cosmwasm-blockchain-smart-contract-example/actions)
 
-## CosmWasm
+# CosmWasm
 
-### Create your own Blockchain smart contracts with "CosmWasm" (academy.cosmwasm.com)
+### Learn how to build your first Smart Contract:
 
 - ❓ You will learn how to create **CosmWasm** Smart Contracts using Rust programming language!
 - 🤘 Using basic tools - **CosmWasm** standard library, and some common utilities.
-- 💅 You will start defining your contract entry points, then you will learn about the **state management**, and how to **test** your contracts.
-- 💥 All the time you would learn how to test pieces you already have.
-- 👉 The course is focusing not only on giving you raw knowledge, but show you the best practices to make your live easier in the future.
-- 😎 The Rust knowledge, at least on the basic level is assumed.
+- 💅 Defining your contract entry points, state management.
+- 💥 Write Unit tests.
+- 👉 Show you the best practices to make your live easier in the future.
+- 😎 You will get Rust knowledge
 
 -------
 
