@@ -10,6 +10,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
+      # Steps below only working up to chapter 13 (Migrations),
+      # because using path to remote source code.
       #- name: Cargo build
       #  run: cargo build --verbose
       #- name: Run tests
